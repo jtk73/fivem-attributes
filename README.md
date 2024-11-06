@@ -1,6 +1,17 @@
 # fivem-attributes
 
-A super simple attribute system built with [Prisma](https://www.prisma.io) for setting and viewing character details.
+A super simple attributes system for setting and viewing details of a character.
+
+_Saw someone selling this on Cfx forums, so here is a free version lol._
+
+## Features
+
+- Set a age, height, and description of your character for better customization and interactions.
+- Attributes are stored in your database.
+- Utilizes [Primsa](https://www.prisma.io) to save and fetch character details.
+- Administrators have the ability to manage character details via command.
+
+![preview](https://github.com/user-attachments/assets/6ffd27a7-a59d-4a6c-8907-b4759ccfce90)
 
 ## Installation
 

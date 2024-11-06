@@ -1,3 +1,4 @@
+import * as Cfx from "@nativewrappers/fivem/server";
 import { GetPlayer } from "@overextended/ox_core/server";
 import { addCommand } from "@overextended/ox_lib/server";
 import db from "./db";
@@ -18,6 +19,8 @@ addCommand(["attributes", "atr"], async (source: number, args: { age: number; he
     const height: number = args.height;
     // @ts-ignore
     const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
+
+    await Cfx.Delay(100);
 
     await db.saveAttributes(player.charId, age, height, details);
     exports.chat.addMessage(source, `^#5e81acAttributes have been saved successfully!`);
@@ -115,6 +118,8 @@ addCommand(["updatedetails", "ud"], async (source: number, args: { playerId: num
       exports.chat.addMessage(source, `^#d73232This player doesn't have attributes to update.`);
       return;
     }
+
+    await Cfx.Delay(100);
 
     await db.updateAttributes(target.charId, age, height, details);
     exports.chat.addMessage(source, `^#5e81acAttributes have been updated successfully for ^#ffffff${target.get("name")}`);

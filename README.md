@@ -40,3 +40,6 @@ Use `pnpm watch` to rebuild whenever a file is modified.
 
 - Examine another player's age, height, and description.
 
+#### [ADMIN] `/updatedetails [playerId] [age] [height] [details]` _(alias: `/ud`)_
+
+- Update another player's age, height, and description.

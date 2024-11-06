@@ -2,7 +2,7 @@ import { GetPlayer } from "@overextended/ox_core/server";
 import { addCommand } from "@overextended/ox_lib/server";
 import db from "./db";
 
-addCommand(["attributes"], async (source: number, args: { age: number; height: number, details: string }) => {
+addCommand(["attributes", "atr"], async (source: number, args: { age: number; height: number, details: string }) => {
   const player = GetPlayer(source);
 
   if (!player?.charId) return;
@@ -46,7 +46,7 @@ addCommand(["attributes"], async (source: number, args: { age: number; height: n
   restricted: false,
 });
 
-addCommand(["examine"], async (source: number, args: { playerId: number }) => {
+addCommand(["examine", "ep"], async (source: number, args: { playerId: number }) => {
   const player = GetPlayer(source);
 
   if (!player?.charId) return;
@@ -56,7 +56,7 @@ addCommand(["examine"], async (source: number, args: { playerId: number }) => {
   try {
     const target = GetPlayer(playerId);
     if (!target?.charId) {
-      exports.chat.addMessage(source, `^#d73232ERROR ^#ffffffNo player found with ID ${playerId}.`);
+      exports.chat.addMessage(source, `^#d73232ERROR ^#ffffffNo player found with id ${playerId}.`);
       return;
     }
 
@@ -92,3 +92,58 @@ function formatHeight(height: number): string {
 
   return `${feet}'${inches}`;
 }
+
+addCommand(["updatedetails", "ud"], async (source: number, args: { playerId: number; age: number; height: number; details: string }) => {
+  const player = GetPlayer(source);
+
+  if (!player?.charId) return;
+
+  const playerId: number = args.playerId;
+  const age: number = args.age;
+  const height: number = args.height;
+  const details: string = args.details;
+
+  try {
+    const target = GetPlayer(playerId);
+    if (!target?.charId) {
+      exports.chat.addMessage(source, `^#d73232ERROR ^#ffffffNo player found with id ${playerId}.`);
+      return;
+    }
+
+    const result = await db.getAttributes(target.charId);
+    if (!result) {
+      exports.chat.addMessage(source, `^#d73232This player doesn't have attributes to update.`);
+      return;
+    }
+
+    await db.updateAttributes(target.charId, age, height, details);
+    exports.chat.addMessage(source, `^#5e81acAttributes have been updated successfully for ^#ffffff${target.get("name")}`);
+  } catch (error) {
+    console.error("/updatedetails:", error);
+    exports.chat.addMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while updating attributes.");
+  }
+}, {
+  params: [
+    {
+      name: "playerId",
+      paramType: "number",
+      optional: false,
+    },
+    {
+      name: "age",
+      paramType: "number",
+      optional: false,
+    },
+    {
+      name: "height",
+      paramType: "number",
+      optional: false,
+    },
+    {
+      name: "details",
+      paramType: "string",
+      optional: false,
+    },
+  ],
+  restricted: "group.admin",
+});

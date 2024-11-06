@@ -45,7 +45,7 @@ addCommand(["examine"], async (source: number, args: { playerId: number }) => {
 
   if (!player?.charId) return;
 
-  const playerId = args.playerId;
+  const playerId: number = args.playerId;
 
   try {
     const target = GetPlayer(playerId);
@@ -57,9 +57,11 @@ addCommand(["examine"], async (source: number, args: { playerId: number }) => {
     const attributes = await db.getAttributes(target.charId);
     if (!attributes) return;
 
+    const formattedHeight: string = formatHeight(attributes.height);
+
     exports.chat.addMessage(source, `^#5e81ac--------- ^#ffffff${target.get("name")}"s Details ^#5e81ac---------`);
     exports.chat.addMessage(source, `^#ffffffAge: ^#5e81ac${attributes.age}`);
-    exports.chat.addMessage(source, `^#ffffffHeight: ^#5e81ac${attributes.height}`);
+    exports.chat.addMessage(source, `^#ffffffHeight: ^#5e81ac${formattedHeight}`);
     exports.chat.addMessage(source, `^#ffffffDescription: ^#5e81ac${attributes.details}`);
   } catch (error) {
     console.error("/examine:", error);
@@ -75,3 +77,10 @@ addCommand(["examine"], async (source: number, args: { playerId: number }) => {
   ],
   restricted: false,
 });
+
+function formatHeight(height: number): string {
+  const feet: number = Math.floor(height / 12);
+  const inches: number = height % 12;
+
+  return `${feet}'${inches}`;
+}

@@ -21,7 +21,7 @@ A super simple attribute system built with [Prisma](https://www.prisma.io) for s
 6. Execute the queries found in `attributes.sql` in your database.
 7. Install all dependencies with `pnpm i`.
 8. Create a new file named `.env` within the root directory.
-9. Copy the contents of `.env.example` to the newly created `.env` file and edit accordingly:
+9. Copy the contents of `.env.example` to the newly created `.env` file and edit accordingly.
 10. Connect your database with `pnpm pull` to add Prisma models to `schema.prisma`.
 11. Generate Prisma client using `pnpm generate`.
 12. Build the resource with `pnpm build`.

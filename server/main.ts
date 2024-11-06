@@ -104,7 +104,8 @@ addCommand(["updatedetails", "ud"], async (source: number, args: { playerId: num
   const playerId: number = args.playerId;
   const age: number = args.age;
   const height: number = args.height;
-  const details: string = args.details;
+  // @ts-ignore
+  const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
 
   try {
     const target = GetPlayer(playerId);

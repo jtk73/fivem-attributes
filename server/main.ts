@@ -59,7 +59,7 @@ addCommand(["examine"], async (source: number, args: { playerId: number }) => {
 
     const formattedHeight: string = formatHeight(attributes.height);
 
-    exports.chat.addMessage(source, `^#5e81ac--------- ^#ffffff${target.get("name")}"s Details ^#5e81ac---------`);
+    exports.chat.addMessage(source, `^#5e81ac--------- ^#ffffff${target.get("name")}'s Details ^#5e81ac---------`);
     exports.chat.addMessage(source, `^#ffffffAge: ^#5e81ac${attributes.age}`);
     exports.chat.addMessage(source, `^#ffffffHeight: ^#5e81ac${formattedHeight}`);
     exports.chat.addMessage(source, `^#ffffffDescription: ^#5e81ac${attributes.details}`);
@@ -79,8 +79,9 @@ addCommand(["examine"], async (source: number, args: { playerId: number }) => {
 });
 
 function formatHeight(height: number): string {
-  const feet: number = Math.floor(height / 12);
-  const inches: number = height % 12;
+  const adjusted: number = height + 12;
+  const feet: number = Math.floor(adjusted / 12);
+  const inches: number = adjusted % 12;
 
   return `${feet}'${inches}`;
 }

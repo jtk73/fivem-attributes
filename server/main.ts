@@ -7,12 +7,18 @@ addCommand(["attributes"], async (source: number, args: { age: number; height: n
 
   if (!player?.charId) return;
 
-  const age: number = args.age;
-  const height: number = args.height;
-  // @ts-ignore
-  const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
-
   try {
+    const result = await db.getAttributes(player.charId);
+    if (result) {
+      exports.chat.addMessage(source, `^#d73232You already have attributes saved!`);
+      return;
+    }
+
+    const age: number = args.age;
+    const height: number = args.height;
+    // @ts-ignore
+    const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
+
     await db.saveAttributes(player.charId, age, height, details);
     exports.chat.addMessage(source, `^#5e81acAttributes have been saved successfully!`);
   } catch (error) {
@@ -55,13 +61,14 @@ addCommand(["examine"], async (source: number, args: { playerId: number }) => {
     }
 
     const attributes = await db.getAttributes(target.charId);
-    if (!attributes) return;
-
-    const formattedHeight: string = formatHeight(attributes.height);
+    if (!attributes) {
+      exports.chat.addMessage(source, `^#d73232Player doesn't have any details set.`);
+      return;
+    }
 
     exports.chat.addMessage(source, `^#5e81ac--------- ^#ffffff${target.get("name")}'s Details ^#5e81ac---------`);
     exports.chat.addMessage(source, `^#ffffffAge: ^#5e81ac${attributes.age}`);
-    exports.chat.addMessage(source, `^#ffffffHeight: ^#5e81ac${formattedHeight}`);
+    exports.chat.addMessage(source, `^#ffffffHeight: ^#5e81ac${formatHeight(attributes.height)}`);
     exports.chat.addMessage(source, `^#ffffffDescription: ^#5e81ac${attributes.details}`);
   } catch (error) {
     console.error("/examine:", error);

@@ -25,7 +25,7 @@ class Database {
 
   async updateAttributes(charId: number, age: number, height: number, details: string) {
     const result = await this.getAttributes(charId);
-    if (!result) throw new Error("Attributes not found for the specified charId.");
+    if (!result) return;
 
     return await this.prisma.attributes.update({
       where: {

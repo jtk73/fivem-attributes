@@ -8,17 +8,32 @@ addCommand(["attributes", "atr"], async (source: number, args: { age: number; he
 
   if (!player?.charId) return;
 
+  const age: number = args.age;
+  const height: number = args.height;
+  // @ts-ignore
+  const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
+
   try {
+    if (age < 16 || age > 90) {
+      exports.chat.addMessage(source, "^#d73232ERROR ^#ffffffAge must be between 16 and 90.");
+      return;
+    }
+
+    if (height < 45 || height > 75) {
+      exports.chat.addMessage(source, "^#d73232ERROR ^#ffffffHeight must be between 45 (4'5) and 75 (7'5).");
+      return;
+    }
+
+    if (args.details.length < 100) {
+      exports.chat.addMessage(source, "^#d73232ERROR ^#ffffffDetails must be at least 100 characters long.");
+      return;
+    }
+
     const result = await db.getAttributes(player.charId);
     if (result) {
       exports.chat.addMessage(source, `^#d73232You already have attributes saved!`);
       return;
     }
-
-    const age: number = args.age;
-    const height: number = args.height;
-    // @ts-ignore
-    const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
 
     await Cfx.Delay(100);
 

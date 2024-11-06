@@ -82,7 +82,7 @@ addCommand(["examine", "ep"], async (source: number, args: { playerId: number })
 
     sendChatMessage(source, `^#1c873f|_____ ${target.get("name")}'s Details _____|`);
     sendChatMessage(source, `^#f5491eAge: ${result.age}`);
-    sendChatMessage(source, `^#f5491eHeight: ${formatHeight(result.height)}`);
+    sendChatMessage(source, `^#f5491eHeight: ${result.height !== null ? formatHeight(result.height) : "N/A"}`);
     sendChatMessage(source, `^#f5491eDescription: ${result.details}`);
   } catch (error) {
     console.error("/examine:", error);
@@ -151,6 +151,45 @@ addCommand(["updatedetails", "ud"], async (source: number, args: { playerId: num
     {
       name: "details",
       paramType: "string",
+      optional: false,
+    },
+  ],
+  restricted: "group.admin",
+});
+
+addCommand(["deleteattributes", "delattr"], async (source: number, args: { playerId: number }) => {
+  const player = GetPlayer(source);
+
+  if (!player?.charId) return;
+
+  const playerId: number = args.playerId;
+
+  try {
+    const target = GetPlayer(playerId);
+    if (!target?.charId) {
+      sendChatMessage(source, `^#d73232ERROR ^#ffffffNo player found with id ${playerId}.`);
+      return;
+    }
+
+    const result = await db.getAttributes(target.charId);
+    if (!result) {
+      sendChatMessage(source, `^#d73232This player doesn't have attributes to delete.`);
+      return;
+    }
+
+    await Cfx.Delay(100);
+
+    await db.deleteAttributes(target.charId);
+    sendChatMessage(source, `^#5e81acAttributes have been successfully deleted for ^#ffffff${target.get("name")}`);
+  } catch (error) {
+    console.error("/deleteattributes:", error);
+    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while deleting attributes.");
+  }
+}, {
+  params: [
+    {
+      name: "playerId",
+      paramType: "number",
       optional: false,
     },
   ],

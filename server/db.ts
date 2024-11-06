@@ -16,3 +16,7 @@ export async function updateAttributes(charId: number, age: number, height: numb
 
   return await prisma.attributes.update({ where: { id: result.id }, data: { age, height, details, created_date: new Date() } });
 };
+
+export async function deleteAttributes(charId: number) {
+  return await prisma.attributes.deleteMany({ where: { charId: charId } });
+};

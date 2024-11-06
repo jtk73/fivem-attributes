@@ -54,3 +54,7 @@ Use `pnpm watch` to rebuild whenever a file is modified.
 #### [ADMIN] `/updatedetails [playerId] [age] [height] [details]` _(alias: `/ud`)_
 
 - Update another player's age, height, and description.
+
+#### [ADMIN] `/deleteattributes [playerId]` _(alias: `/delattr`)_
+
+- Deletes attributes for the specified player.

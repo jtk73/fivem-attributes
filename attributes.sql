@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS `attributes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `charId` INT,
+  `age` INT,
+  `height` INT,
+  `details` LONGTEXT NOT NULL,
+  `created_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -69,10 +69,10 @@ addCommand(["examine", "ep"], async (source: number, args: { playerId: number })
       return;
     }
 
-    exports.chat.addMessage(source, `^#5e81ac--------- ^#ffffff${target.get("name")}'s Details ^#5e81ac---------`);
-    exports.chat.addMessage(source, `^#ffffffAge: ^#5e81ac${attributes.age}`);
-    exports.chat.addMessage(source, `^#ffffffHeight: ^#5e81ac${formatHeight(attributes.height)}`);
-    exports.chat.addMessage(source, `^#ffffffDescription: ^#5e81ac${attributes.details}`);
+    exports.chat.addMessage(source, `^#1c873f|_____ ${target.get("name")}'s Details _____|`);
+    exports.chat.addMessage(source, `^#f5491eAge: ${attributes.age}`);
+    exports.chat.addMessage(source, `^#f5491eHeight: ${formatHeight(attributes.height)}`);
+    exports.chat.addMessage(source, `^#f5491eDescription: ${attributes.details}`);
   } catch (error) {
     console.error("/examine:", error);
     exports.chat.addMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while trying to fetch player attributes.");

@@ -1,10 +1,10 @@
 import * as Cfx from "@nativewrappers/fivem/server";
 import { GetPlayer } from "@overextended/ox_core/server";
 import { addCommand } from "@overextended/ox_lib/server";
-import * as db from './db';
-import { formatHeight, sendChatMessage } from './utils';
+import * as db from "./db";
+import { formatHeight, sendChatMessage } from "./utils";
 
-addCommand(["attributes", "atr"], async (source: number, args: { age: number; height: number, details: string }) => {
+async function attributes(source: number, args: { age: number; height: number; details: string }): Promise<void> {
   const player = GetPlayer(source);
 
   if (!player?.charId) return;
@@ -36,31 +36,12 @@ addCommand(["attributes", "atr"], async (source: number, args: { age: number; he
     await db.saveAttributes(player.charId, age, height, details);
     sendChatMessage(source, `^#5e81acAttributes have been saved successfully!`);
   } catch (error) {
-    console.error("/attributes:", error);
-    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while saving attributes.");
+    console.error("attributes:", error);
+    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while saving your attributes.");
   }
-}, {
-  params: [
-    {
-      name: "age",
-      paramType: "number",
-      optional: false
-    },
-    {
-      name: "height",
-      paramType: "number",
-      optional: false
-    },
-    {
-      name: "details",
-      paramType: "string",
-      optional: false
-    },
-  ],
-  restricted: false,
-});
+}
 
-addCommand(["examine", "ep"], async (source: number, args: { playerId: number }) => {
+async function examine(source: number, args: { playerId: number }): Promise<void> {
   const player = GetPlayer(source);
 
   if (!player?.charId) return;
@@ -76,7 +57,7 @@ addCommand(["examine", "ep"], async (source: number, args: { playerId: number })
 
     const result = await db.getAttributes(target.charId);
     if (!result) {
-      sendChatMessage(source, `^#d73232Player doesn't have any details set.`);
+      sendChatMessage(source, `^#d73232Player doesn't have any attributes set.`);
       return;
     }
 
@@ -85,21 +66,12 @@ addCommand(["examine", "ep"], async (source: number, args: { playerId: number })
     sendChatMessage(source, `^#f5491eHeight: ${result.height !== null ? formatHeight(result.height) : "N/A"}`);
     sendChatMessage(source, `^#f5491eDescription: ${result.details}`);
   } catch (error) {
-    console.error("/examine:", error);
-    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while trying to fetch player attributes.");
+    console.error("examine:", error);
+    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while trying to fetch player's attributes.");
   }
-}, {
-  params: [
-    {
-      name: "playerId",
-      paramType: "number",
-      optional: false,
-    },
-  ],
-  restricted: false,
-});
+}
 
-addCommand(["updatedetails", "ud"], async (source: number, args: { playerId: number; age: number; height: number; details: string }) => {
+async function set(source: number, args: { playerId: number; age: number; height: number; details: string }): Promise<void> {
   const player = GetPlayer(source);
 
   if (!player?.charId) return;
@@ -119,7 +91,7 @@ addCommand(["updatedetails", "ud"], async (source: number, args: { playerId: num
 
     const result = await db.getAttributes(target.charId);
     if (!result) {
-      sendChatMessage(source, `^#d73232This player doesn't have attributes to update.`);
+      sendChatMessage(source, `^#d73232Player doesn't have any attributes to update.`);
       return;
     }
 
@@ -128,10 +100,74 @@ addCommand(["updatedetails", "ud"], async (source: number, args: { playerId: num
     await db.updateAttributes(target.charId, age, height, details);
     sendChatMessage(source, `^#5e81acAttributes have been updated successfully for ^#ffffff${target.get("name")}`);
   } catch (error) {
-    console.error("/updatedetails:", error);
-    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while updating attributes.");
+    console.error("set:", error);
+    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while updating player's attributes.");
   }
-}, {
+}
+
+async function del(source: number, args: { playerId: number }): Promise<void> {
+  const player = GetPlayer(source);
+
+  if (!player?.charId) return;
+
+  const playerId: number = args.playerId;
+
+  try {
+    const target = GetPlayer(playerId);
+    if (!target?.charId) {
+      sendChatMessage(source, `^#d73232ERROR ^#ffffffNo player found with id ${playerId}.`);
+      return;
+    }
+
+    const result = await db.getAttributes(target.charId);
+    if (!result) {
+      sendChatMessage(source, `^#d73232Player doesn't have any attributes to delete.`);
+      return;
+    }
+
+    await Cfx.Delay(100);
+
+    await db.deleteAttributes(target.charId);
+    sendChatMessage(source, `^#5e81acAttributes have been successfully deleted for ^#ffffff${target.get("name")}`);
+  } catch (error) {
+    console.error("del:", error);
+    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while deleting player's attributes.");
+  }
+}
+
+addCommand(["attributes", "attr"], attributes, {
+  params: [
+    {
+      name: "age",
+      paramType: "number",
+      optional: false,
+    },
+    {
+      name: "height",
+      paramType: "number",
+      optional: false,
+    },
+    {
+      name: "details",
+      paramType: "string",
+      optional: false,
+    },
+  ],
+  restricted: false,
+});
+
+addCommand(["examine", "ex"], examine, {
+  params: [
+    {
+      name: "playerId",
+      paramType: "number",
+      optional: false,
+    },
+  ],
+  restricted: false,
+});
+
+addCommand(["setattributes", "sattr"], set, {
   params: [
     {
       name: "playerId",
@@ -157,35 +193,7 @@ addCommand(["updatedetails", "ud"], async (source: number, args: { playerId: num
   restricted: "group.admin",
 });
 
-addCommand(["deleteattributes", "delattr"], async (source: number, args: { playerId: number }) => {
-  const player = GetPlayer(source);
-
-  if (!player?.charId) return;
-
-  const playerId: number = args.playerId;
-
-  try {
-    const target = GetPlayer(playerId);
-    if (!target?.charId) {
-      sendChatMessage(source, `^#d73232ERROR ^#ffffffNo player found with id ${playerId}.`);
-      return;
-    }
-
-    const result = await db.getAttributes(target.charId);
-    if (!result) {
-      sendChatMessage(source, `^#d73232This player doesn't have attributes to delete.`);
-      return;
-    }
-
-    await Cfx.Delay(100);
-
-    await db.deleteAttributes(target.charId);
-    sendChatMessage(source, `^#5e81acAttributes have been successfully deleted for ^#ffffff${target.get("name")}`);
-  } catch (error) {
-    console.error("/deleteattributes:", error);
-    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while deleting attributes.");
-  }
-}, {
+addCommand(["deleteattributes", "dattr"], del, {
   params: [
     {
       name: "playerId",

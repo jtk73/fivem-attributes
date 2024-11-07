@@ -43,18 +43,18 @@ Use `pnpm watch` to rebuild whenever a file is modified.
 
 ### Commands
 
-#### `/attributes [age] [height] [details]` _(alias: `/atr`)_
+#### `/attributes [age] [height] [details]` _(alias: `/attr`)_
 
 - Set your characters age, height, and details.
 
-#### `/examine [playerId]` _(alias: `/ep`)_
+#### `/examine [playerId]` _(alias: `/ex`)_
 
 - Examine another player's age, height, and description.
 
-#### [ADMIN] `/updatedetails [playerId] [age] [height] [details]` _(alias: `/ud`)_
+#### [ADMIN] `/setattributes [playerId] [age] [height] [details]` _(alias: `/sattr`)_
 
 - Update another player's age, height, and description.
 
-#### [ADMIN] `/deleteattributes [playerId]` _(alias: `/delattr`)_
+#### [ADMIN] `/deleteattributes [playerId]` _(alias: `/dattr`)_
 
 - Deletes attributes for the specified player.

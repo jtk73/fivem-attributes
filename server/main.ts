@@ -1,8 +1,11 @@
 import * as Cfx from "@nativewrappers/fivem/server";
 import { GetPlayer } from "@overextended/ox_core/server";
 import { addCommand } from "@overextended/ox_lib/server";
+import * as config from '../config.json';
 import * as db from "./db";
-import { formatHeight, sendChatMessage } from "./utils";
+import { formatHeight, isAdmin, sendChatMessage } from "./utils";
+
+const restrictedGroup: string = `group.${config.ace_group}`;
 
 async function attributes(source: number, args: { age: number; height: number; details: string }): Promise<void> {
   const player = GetPlayer(source);
@@ -15,12 +18,12 @@ async function attributes(source: number, args: { age: number; height: number; d
   const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
 
   try {
-    if (age < 16 || age > 90) {
+    if (age < config.options.age.min || age > config.options.age.max) {
       sendChatMessage(source, "^#d73232ERROR ^#ffffffAge must be between 16 and 90.");
       return;
     }
 
-    if (height < 45 || height > 75) {
+    if (height < config.options.height.min || height > config.options.height.max) {
       sendChatMessage(source, "^#d73232ERROR ^#ffffffHeight must be between 45 (4'5) and 75 (7'5).");
       return;
     }
@@ -190,7 +193,7 @@ addCommand(["setattributes", "sattr"], set, {
       optional: false,
     },
   ],
-  restricted: "group.admin",
+  restricted: restrictedGroup,
 });
 
 addCommand(["deleteattributes", "dattr"], del, {
@@ -201,5 +204,5 @@ addCommand(["deleteattributes", "dattr"], del, {
       optional: false,
     },
   ],
-  restricted: "group.admin",
+  restricted: restrictedGroup,
 });

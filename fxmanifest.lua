@@ -9,7 +9,11 @@ repository 'https://github.com/arlofonseca/fivem-attributes'
 license 'MIT'
 
 server_scripts {
-  'dist/server/**/*',
+  'dist/server/*.js',
+}
+
+files {
+  'config.json',
 }
 
 dependencies {

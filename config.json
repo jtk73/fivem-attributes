@@ -1,0 +1,13 @@
+{
+  "ace_group": "admin",
+  "options": {
+    "age": {
+      "min": 16,
+      "max": 90
+    },
+    "height": {
+      "min": 45,
+      "max": 75
+    }
+  }
+}

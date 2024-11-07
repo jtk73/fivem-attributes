@@ -12,7 +12,7 @@ export async function getAttributes(charId: number) {
 
 export async function saveAttributes(charId: number, age: number, height: number, details: string) {
   try {
-    return await prisma.attributes.create({ data: { charId, age, height, details, created_date: new Date() } });
+    return await prisma.attributes.create({ data: { charId, age, height, details, created: new Date() } });
   } catch (error) {
     console.error('saveAttributes:', error);
   }
@@ -22,7 +22,7 @@ export async function updateAttributes(charId: number, age: number, height: numb
   try {
     const result = await getAttributes(charId);
     if (!result) return null;
-    return await prisma.attributes.update({ where: { id: result.id }, data: { age, height, details, created_date: new Date() } });
+    return await prisma.attributes.update({ where: { id: result.id }, data: { age, height, details, created: new Date() } });
   } catch (error) {
     console.error('updateAttributes:', error);
   }

@@ -4,7 +4,7 @@ game 'gta5'
 name 'fivem-attributes'
 author 'arlofonseca'
 description 'Player attributes for FiveM.'
-version '0.0.1'
+version '0.0.2'
 repository 'https://github.com/arlofonseca/fivem-attributes'
 license 'MIT'
 

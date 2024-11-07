@@ -4,7 +4,7 @@
   "author": "arlofonseca",
   "license": "MIT",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "pull": "npx prisma db pull",
     "generate": "npx prisma generate",

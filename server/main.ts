@@ -65,6 +65,10 @@ async function examine(source: number, args: { playerId: number }): Promise<void
     }
 
     sendChatMessage(source, `^#1c873f|_____ ${target.get("name")}'s Details _____|`);
+    // @ts-ignore
+    if (!isAdmin(source, restrictedGroup)) {
+      sendChatMessage(source, `^#f5491eID: ${result.id}`);
+    }
     sendChatMessage(source, `^#f5491eAge: ${result.age}`);
     sendChatMessage(source, `^#f5491eHeight: ${result.height !== null ? formatHeight(result.height) : "N/A"}`);
     sendChatMessage(source, `^#f5491eDescription: ${result.details}`);

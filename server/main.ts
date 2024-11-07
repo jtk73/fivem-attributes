@@ -1,7 +1,7 @@
 import * as Cfx from "@nativewrappers/fivem/server";
 import { GetPlayer } from "@overextended/ox_core/server";
 import { addCommand } from "@overextended/ox_lib/server";
-import * as config from '../config.json';
+import * as config from "../config.json";
 import * as db from "./db";
 import { formatHeight, isAdmin, sendChatMessage } from "./utils";
 
@@ -15,7 +15,7 @@ async function attributes(source: number, args: { age: number; height: number; d
   const age: number = args.age;
   const height: number = args.height;
   // @ts-ignore
-  const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
+  const details: string = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
 
   try {
     if (age < config.options.age.min || age > config.options.age.max) {
@@ -60,7 +60,7 @@ async function examine(source: number, args: { playerId: number }): Promise<void
 
     const result = await db.getAttributes(target.charId);
     if (!result) {
-      sendChatMessage(source, `^#d73232Player doesn't have any attributes set.`);
+      sendChatMessage(source, `^#d73232${target.get("name")} doesn't have any attributes set.`);
       return;
     }
 
@@ -87,7 +87,7 @@ async function set(source: number, args: { playerId: number; age: number; height
   const age: number = args.age;
   const height: number = args.height;
   // @ts-ignore
-  const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
+  const details: string = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
 
   try {
     const target = GetPlayer(playerId);
@@ -98,7 +98,7 @@ async function set(source: number, args: { playerId: number; age: number; height
 
     const result = await db.getAttributes(target.charId);
     if (!result) {
-      sendChatMessage(source, `^#d73232Player doesn't have any attributes to update.`);
+      sendChatMessage(source, `^#d73232${target.get("name")} doesn't have any attributes to update.`);
       return;
     }
 
@@ -128,7 +128,7 @@ async function del(source: number, args: { playerId: number }): Promise<void> {
 
     const result = await db.getAttributes(target.charId);
     if (!result) {
-      sendChatMessage(source, `^#d73232Player doesn't have any attributes to delete.`);
+      sendChatMessage(source, `^#d73232${target.get("name")} doesn't have any attributes to delete.`);
       return;
     }
 

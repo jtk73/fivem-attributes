@@ -10,9 +10,9 @@ export async function getAttributes(charId: number) {
   }
 }
 
-export async function saveAttributes(charId: number, age: number, height: number, details: string) {
+export async function saveAttributes(charId: number, name: string, age: number, height: number, details: string) {
   try {
-    return await prisma.attributes.create({ data: { charId, age, height, details, created: new Date() } });
+    return await prisma.attributes.create({ data: { charId, name, age, height, details, created: new Date() } });
   } catch (error) {
     console.error("saveAttributes:", error);
   }

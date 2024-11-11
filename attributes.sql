@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `attributes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `charId` INT,
+  `name` LONGTEXT NOT NULL,
   `age` INT,
   `height` INT,
   `details` LONGTEXT NOT NULL,

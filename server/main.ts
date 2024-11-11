@@ -18,6 +18,12 @@ async function attributes(source: number, args: { age: number; height: number; d
   const details: string = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
 
   try {
+    const result = await db.getAttributes(player.charId);
+    if (result) {
+      sendChatMessage(source, `^#d73232You already have attributes saved!`);
+      return;
+    }
+
     if (age < config.options.age.min || age > config.options.age.max) {
       sendChatMessage(source, "^#d73232ERROR ^#ffffffAge must be between 16 and 90.");
       return;
@@ -28,15 +34,9 @@ async function attributes(source: number, args: { age: number; height: number; d
       return;
     }
 
-    const result = await db.getAttributes(player.charId);
-    if (result) {
-      sendChatMessage(source, `^#d73232You already have attributes saved!`);
-      return;
-    }
-
     await Cfx.Delay(100);
 
-    await db.saveAttributes(player.charId, age, height, details);
+    await db.saveAttributes(player.charId, player.get("name"), age, height, details);
     sendChatMessage(source, `^#5e81acAttributes have been saved successfully!`);
   } catch (error) {
     console.error("attributes:", error);
@@ -105,7 +105,7 @@ async function set(source: number, args: { playerId: number; age: number; height
     await Cfx.Delay(100);
 
     await db.updateAttributes(target.charId, age, height, details);
-    sendChatMessage(source, `^#5e81acAttributes have been updated successfully for ^#ffffff${target.get("name")}`);
+    sendChatMessage(source, `^#5e81acAttributes have been successfully updated for ^#ffffff${target.get("name")}`);
   } catch (error) {
     console.error("set:", error);
     sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while updating player's attributes.");

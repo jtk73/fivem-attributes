@@ -56,3 +56,7 @@ Use `pnpm watch` to rebuild whenever a file is modified.
 #### [ADMIN] `/deleteattributes [playerId]` _(alias: `/dattr`)_
 
 - Deletes attributes for the specified player.
+
+## Support
+
+For any feedback or support regarding this script, please reach out on [discord](https://discord.com/invite/QZgyyBkUkp).

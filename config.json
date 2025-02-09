@@ -1,5 +1,6 @@
 {
   "ace_group": "admin",
+  "distance": 10,
   "options": {
     "age": {
       "min": 16,

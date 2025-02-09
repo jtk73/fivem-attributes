@@ -1,13 +1,13 @@
 # fivem-attributes
 
-A free player attributes system for setting and viewing details of a character.
+A player attributes system for setting and viewing details of a character.
 
 ## Features
 
+- Utilizes [Prisma](https://www.prisma.io) to interact with your database.
 - Set a age, height, and description of your character for better interactions.
 - Attributes are stored in your database.
-- Utilizes [Prisma](https://www.prisma.io) to interact with your database.
-- Administrators have the ability to manage attributes via command.
+- Administrators have the ability to manage and oversee attributes via command.
 
 ![preview](https://github.com/user-attachments/assets/6ffd27a7-a59d-4a6c-8907-b4759ccfce90)
 
@@ -17,8 +17,8 @@ A free player attributes system for setting and viewing details of a character.
 
 ### Dependencies
 
-- [ox_lib](https://github.com/overextended/ox_lib)
 - [ox_core](https://github.com/overextended/ox_core)
+- [ox_lib](https://github.com/overextended/ox_lib)
 
 ### Building this resource
 

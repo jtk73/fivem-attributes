@@ -5,17 +5,17 @@ import * as config from "../config.json";
 import * as db from "./db";
 import { formatHeight, isAdmin, sendChatMessage } from "./utils";
 
-const restrictedGroup: string = `group.${config.ace_group}`;
+const restrictedGroup = `group.${config.ace_group}`;
 
 async function attributes(source: number, args: { age: number; height: number; details: string }): Promise<void> {
   const player = GetPlayer(source);
 
   if (!player?.charId) return;
 
-  const age: number = args.age;
-  const height: number = args.height;
+  const age = args.age;
+  const height = args.height;
   // @ts-ignore
-  const details: string = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
+  const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
 
   try {
     const result = await db.getAttributes(player.charId);
@@ -49,13 +49,23 @@ async function examine(source: number, args: { playerId: number }): Promise<void
 
   if (!player?.charId) return;
 
-  const playerId: number = args.playerId;
+  const playerId = args.playerId;
 
   try {
     const target = GetPlayer(playerId);
     if (!target?.charId) {
       sendChatMessage(source, `^#d73232ERROR ^#ffffffNo player found with id ${playerId}.`);
       return;
+    }
+
+    if (!isAdmin(source, restrictedGroup)) {
+      const playerCoords = player.getCoords();
+      const targetCoords = target.getCoords();
+      const distance = Math.sqrt(Math.pow(playerCoords.x - targetCoords.x, 2) + Math.pow(playerCoords.y - targetCoords.y, 2) + Math.pow(playerCoords.z - targetCoords.z, 2));
+      if (distance > config.distance) {
+        sendChatMessage(source, `^#d73232Player is too far away!`);
+        return;
+      }
     }
 
     const result = await db.getAttributes(target.charId);
@@ -65,7 +75,6 @@ async function examine(source: number, args: { playerId: number }): Promise<void
     }
 
     sendChatMessage(source, `^#1c873f|_____ ${target.get("name")}'s Details _____|`);
-    // @ts-ignore
     if (!isAdmin(source, restrictedGroup)) {
       sendChatMessage(source, `^#f5491eID: ${result.id}`);
     }
@@ -83,11 +92,11 @@ async function set(source: number, args: { playerId: number; age: number; height
 
   if (!player?.charId) return;
 
-  const playerId: number = args.playerId;
-  const age: number = args.age;
-  const height: number = args.height;
+  const playerId = args.playerId;
+  const age = args.age;
+  const height = args.height;
   // @ts-ignore
-  const details: string = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
+  const details = `${args.details} ${args.filter((item: any): boolean => item !== null).join(" ")}`;
 
   try {
     const target = GetPlayer(playerId);
@@ -117,7 +126,7 @@ async function del(source: number, args: { playerId: number }): Promise<void> {
 
   if (!player?.charId) return;
 
-  const playerId: number = args.playerId;
+  const playerId = args.playerId;
 
   try {
     const target = GetPlayer(playerId);
@@ -189,12 +198,12 @@ addCommand(["setattributes", "sattr"], set, {
     {
       name: "height",
       paramType: "number",
-      optional: false,
+      optional: true,
     },
     {
       name: "details",
       paramType: "string",
-      optional: false,
+      optional: true,
     },
   ],
   restricted: restrictedGroup,

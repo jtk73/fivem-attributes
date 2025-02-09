@@ -25,12 +25,12 @@ async function attributes(source: number, args: { age: number; height: number; d
     }
 
     if (age < config.options.age.min || age > config.options.age.max) {
-      sendChatMessage(source, "^#d73232ERROR ^#ffffffAge must be between 16 and 90.");
+      sendChatMessage(source, `^#d73232ERROR ^#ffffffAge must be between ${config.options.age.min} and ${config.options.age.max}.`);
       return;
     }
 
     if (height < config.options.height.min || height > config.options.height.max) {
-      sendChatMessage(source, "^#d73232ERROR ^#ffffffHeight must be between 45 (4'5) and 75 (7'5).");
+      sendChatMessage(source, `^#d73232ERROR ^#ffffffHeight must be between ${config.options.height.min} (${formatHeight(config.options.height.min)}) and ${config.options.height.max} (${formatHeight(config.options.height.max)}).`);
       return;
     }
 

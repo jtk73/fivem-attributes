@@ -57,7 +57,7 @@ Use `pnpm watch` to rebuild whenever a file is modified.
 
 - Delete saved attributes for the specified player.
 
-#### [ADMIN] `/listattributes [playerId]` _(alias: `/lattr`)_
+#### [ADMIN] `/listattributes` _(alias: `/lattr`)_
 
 - View a list of all saved attributes.
 

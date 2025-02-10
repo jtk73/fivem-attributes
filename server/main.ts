@@ -58,10 +58,11 @@ async function examine(source: number, args: { playerId: number }): Promise<void
       return;
     }
 
+    // @ts-ignore
     if (!isAdmin(source, restrictedGroup)) {
       const playerCoords = player.getCoords();
       const targetCoords = target.getCoords();
-      const distance = Math.sqrt(Math.pow(playerCoords.x - targetCoords.x, 2) + Math.pow(playerCoords.y - targetCoords.y, 2) + Math.pow(playerCoords.z - targetCoords.z, 2));
+      const distance = Math.sqrt(Math.pow(playerCoords[0] - targetCoords[0], 2) + Math.pow(playerCoords[1] - targetCoords[1], 2) + Math.pow(playerCoords[2] - targetCoords[2], 2));
       if (distance > config.distance) {
         sendChatMessage(source, `^#d73232Player is too far away!`);
         return;
@@ -75,6 +76,7 @@ async function examine(source: number, args: { playerId: number }): Promise<void
     }
 
     sendChatMessage(source, `^#1c873f|_____ ${target.get("name")}'s Details _____|`);
+    // @ts-ignore
     if (!isAdmin(source, restrictedGroup)) {
       sendChatMessage(source, `^#f5491eID: ${result.id}`);
     }

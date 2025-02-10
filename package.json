@@ -1,10 +1,10 @@
 {
   "name": "fivem-attributes",
-  "description": "Player attributes for FiveM.",
+  "description": "Character attributes for FiveM.",
   "author": "arlofonseca",
   "license": "MIT",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "pull": "npx prisma db pull",
     "generate": "npx prisma generate",

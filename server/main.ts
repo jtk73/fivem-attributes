@@ -161,7 +161,7 @@ async function list(source: number): Promise<void> {
 
     sendChatMessage(source, "^#1c873f|_________ Player Attributes _________|");
     for (const character of list) {
-      sendChatMessage(source, `^#f5491e${character.name}: Age ${character.age} | Height ${formatHeight(character.height)} | Description: ${character.details}`);
+      sendChatMessage(source, `^#f5491e${character.name}: Age ${character.age} | Height ${formatHeight(character.height ?? 0)} | Description: ${character.details}`);
     }
   } catch (error) {
     console.error("list:", error);

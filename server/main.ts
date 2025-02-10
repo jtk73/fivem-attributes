@@ -60,9 +60,7 @@ async function examine(source: number, args: { playerId: number }): Promise<void
 
     // @ts-ignore
     if (!isAdmin(source, restrictedGroup)) {
-      const playerCoords = player.getCoords();
-      const targetCoords = target.getCoords();
-      const distance = Math.sqrt(Math.pow(playerCoords[0] - targetCoords[0], 2) + Math.pow(playerCoords[1] - targetCoords[1], 2) + Math.pow(playerCoords[2] - targetCoords[2], 2));
+      const distance = Math.sqrt(Math.pow(player.getCoords()[0] - target.getCoords()[0], 2) + Math.pow(player.getCoords()[1] - target.getCoords()[1], 2) + Math.pow(player.getCoords()[2] - target.getCoords()[2], 2));
       if (distance > config.distance) {
         sendChatMessage(source, `^#d73232Player is too far away!`);
         return;
@@ -153,6 +151,24 @@ async function del(source: number, args: { playerId: number }): Promise<void> {
   }
 }
 
+async function list(source: number): Promise<void> {
+  try {
+    const list = await db.getAllAttributes();
+    if (!list || list.length === 0) {
+      sendChatMessage(source, "^#d73232No players have set attributes yet.");
+      return;
+    }
+
+    sendChatMessage(source, "^#1c873f|_________ Player Attributes _________|");
+    for (const character of list) {
+      sendChatMessage(source, `^#f5491e${character.name}: Age ${character.age} | Height ${formatHeight(character.height)} | Description: ${character.details}`);
+    }
+  } catch (error) {
+    console.error("list:", error);
+    sendChatMessage(source, "^#d73232ERROR ^#ffffffAn error occurred while fetching the attributes list.");
+  }
+}
+
 addCommand(["attributes", "attr"], attributes, {
   params: [
     {
@@ -220,4 +236,8 @@ addCommand(["deleteattributes", "dattr"], del, {
     },
   ],
   restricted: restrictedGroup,
+});
+
+addCommand(["listattributes", "lattr"], list, {
+  restricted: restrictedGroup
 });

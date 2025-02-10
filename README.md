@@ -1,6 +1,6 @@
 # fivem-attributes
 
-A player attributes system for setting and viewing details of a character.
+A attributes system for setting and viewing details of a character.
 
 ## Features
 
@@ -43,19 +43,23 @@ Use `pnpm watch` to rebuild whenever a file is modified.
 
 #### `/attributes [age] [height] [details]` _(alias: `/attr`)_
 
-- Set your characters age, height, and details.
+- Set your character age, height, and details.
 
 #### `/examine [playerId]` _(alias: `/ex`)_
 
-- Examine another player's age, height, and description.
+- Examine another character age, height, and description.
 
 #### [ADMIN] `/setattributes [playerId] [age] [height] [details]` _(alias: `/sattr`)_
 
-- Update another player's age, height, and description.
+- Update a character age, height, and or description.
 
 #### [ADMIN] `/deleteattributes [playerId]` _(alias: `/dattr`)_
 
-- Deletes attributes for the specified player.
+- Delete saved attributes for the specified player.
+
+#### [ADMIN] `/listattributes [playerId]` _(alias: `/lattr`)_
+
+- View a list of all saved attributes.
 
 ## Support
 

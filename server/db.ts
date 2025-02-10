@@ -35,3 +35,11 @@ export async function deleteAttributes(charId: number) {
     console.error("deleteAttributes:", error);
   }
 }
+
+export async function getAllAttributes() {
+  try {
+    return await prisma.attributes.findMany();
+  } catch (error) {
+    console.error("getAllAttributes:", error);
+  }
+}

@@ -13,27 +13,24 @@ A attributes system for setting and viewing details of a character.
 
 ## Installation
 
-##### _If you download the source code via the green `Code` button, you'll need to build the resource. Information on how to do this is provided below. If you prefer not to build it, you can download latest release and drag and drop it into your server. However, any changes made to the built resource will need to be re-built to apply the changes._
-
 ### Dependencies
 
 - [ox_core](https://github.com/overextended/ox_core)
 - [ox_lib](https://github.com/overextended/ox_lib)
 
-### Building this resource
+### Build
 
 1. Download and install the LTS version of [Node.js](https://nodejs.org/en).
 2. Open a command-line terminal (e.g., Terminal, Command Prompt).
 3. Enter `node --version` to verify the installation.
 4. Run `npm install -g pnpm` to globally install the package manager [pnpm](https://pnpm.io).
-5. Download or clone the repository with `git clone https://github.com/arlofonseca/fivem-attributes`.
-6. Execute the queries found in `attributes.sql` in your database.
+5. Download or clone the repository with `git clone https://github.com/jacobbernoulli/fivem-attributes`.
+6. Execute the queries found in `sql/schema.sql` in your database.
 7. Install all dependencies with `pnpm i`.
 8. Create a new file named `.env` within the root directory.
 9. Copy the contents of `.env.example` to the newly created `.env` file and edit accordingly.
-10. Connect your database with `pnpm pull` to add Prisma models to `schema.prisma`.
-11. Generate Prisma client using `pnpm generate`.
-12. Build the resource with `pnpm build`.
+10. Connect your database to add Prisma models to `schema.prisma` and generate Prisma client using `pnpm connect`.
+11. Build the resource with `pnpm build`.
 
 Use `pnpm watch` to rebuild whenever a file is modified.
 
@@ -41,26 +38,13 @@ Use `pnpm watch` to rebuild whenever a file is modified.
 
 ### Commands
 
-#### `/attributes [age] [height] [details]` _(alias: `/attr`)_
+#### Player
 
-- Set your character age, height, and details.
+- `/attributes [age] [height] [details]` _(alias: `/attr`)_ - Set your character age, height, and description.
+- `/examine [playerId]` _(alias: `/ex`)_ - Examine a character age, height, and description.
 
-#### `/examine [playerId]` _(alias: `/ex`)_
+#### Admin
 
-- Examine another character age, height, and description.
-
-#### [ADMIN] `/setattributes [playerId] [age] [height] [details]` _(alias: `/sattr`)_
-
-- Update a character age, height, and or description.
-
-#### [ADMIN] `/deleteattributes [playerId]` _(alias: `/dattr`)_
-
-- Delete saved attributes for the specified player.
-
-#### [ADMIN] `/listattributes` _(alias: `/lattr`)_
-
-- View a list of all saved attributes.
-
-## Support
-
-For any feedback or support regarding this script, please reach out on [discord](https://discord.com/invite/QZgyyBkUkp).
+- `/sattr [playerId] [age] [height] [details]` - Update a character age, height, and or description.
+- `/deleteattributes [playerId]` _(alias: `/dattr`)_ - Delete attributes from database and target player.
+- `/listattributes` _(alias: `/lattr`)_ - View a list of all saved attributes in database.
